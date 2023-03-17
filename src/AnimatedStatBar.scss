@@ -1,0 +1,39 @@
+.animated_stat_bar {
+  width: 20px;
+  position: relative;
+  height: 100%;
+
+  &.hp {
+    .background {
+      background: lightcoral;
+    }
+
+    .foreground {
+      background: red;
+    }
+  }
+
+  &.sp {
+    .background {
+      background: lightgreen;
+    }
+
+    .foreground {
+      background: green;
+    }
+  }
+
+  .background, .foreground {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+
+    &.slow {
+      transition: height 0.5s ease-out 2s;
+    }
+    
+    &.fast {
+      transition: height 0s 1s;
+    }
+  }
+}
