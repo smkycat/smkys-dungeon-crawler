@@ -56,8 +56,6 @@
 
         .x {
           position: absolute;
-          background: url('../public/assets/x.png') no-repeat center center;
-          background-size: contain;
           top: 0;
           left: 0;
           height: 120px;
@@ -82,8 +80,6 @@
           opacity: 0;
 
           &.melee {
-            background: url('../public/assets/melee_animation.png') no-repeat center center;
-            background-size: contain;
             transform: rotate(12deg) scale(1.2);
 
             @keyframes melee {
@@ -102,8 +98,6 @@
           }
 
           &.ranged {
-            background: url('../public/assets/ranged_animation.png') no-repeat center center;
-            background-size: contain;
             transform: rotate(0deg) scale(1.2);
   
             @keyframes ranged {
@@ -127,8 +121,6 @@
           }
 
           &.magic {
-            background: url('../public/assets/magic_animation.png') no-repeat center center;
-            background-size: contain;
             transform: rotate(-90deg) scale(1.2);
   
             @keyframes magic {

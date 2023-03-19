@@ -1,6 +1,7 @@
 
 import { AnimatedStatBar } from './AnimatedStatBar';
 import './BattleCharacters.scss';
+import { Image } from './particles/Image';
 
 export const BattleCharacters = ({ chars, activeCharIndex }) => (
   <div className='battle_characters'>
@@ -15,12 +16,15 @@ const BattleCharacter = ({ char, isActive }) => char.img ? (
     <AnimatedStatBar value={char.hp} maxValue={char.maxHp} type='hp' />
     <div className='battle_character_portrait_and_name'>
       <div className='portrait_container'>
-        <div
-          className='image'
-          style={{ background: `url(assets/${char.img}) no-repeat center center`, backgroundSize: 'contain' }}
+        <Image src={char.img} width={120} height={120} />
+        <Image
+          key={char.hp}
+          className={`animation_layer ${char.animation}`}
+          width={120}
+          height={120}
+          src={`${char.animation}_animation.png`}
         />
-        <div key={char.hp} className={`animation_layer ${char.animation}`} />
-        {!char.hp && <div className='x' />}
+        {!char.hp && <Image src='x.png' className='x' width={120} height={120} />}
       </div>
       <div className='battle_character_name'>{char.name}</div>
     </div>
