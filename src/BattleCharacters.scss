@@ -57,14 +57,13 @@
         .x {
           position: absolute;
           top: 0;
-          left: 0;
           height: 120px;
           width: 120px;
           opacity: 0;
           
           @keyframes delay {
             to {
-              opacity: 0.6;
+              opacity: 0.65;
             }
           }
           
@@ -74,7 +73,6 @@
         .animation_layer {
           position: absolute;
           top: 0;
-          left: 0;
           height: 120px;
           width: 120px;
           opacity: 0;
@@ -108,8 +106,8 @@
               }
               50% {
                 opacity: 1;
-                top: 0px;
-                left: 0px;
+                top: 10px;
+                left: -10px;
               }
               100% {
                 opacity: 0;

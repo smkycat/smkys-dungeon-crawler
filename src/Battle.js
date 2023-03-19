@@ -4,8 +4,9 @@ import { useDispatch } from 'react-redux';
 import * as actions from './stores/actions';
 import { useSelector, shallowEqual } from 'react-redux';
 import { BattleCharacters } from './BattleCharacters';
+import { calculateAttackTarget } from './calculateAttackTarget';
 import './Battle.scss';
-import { every, sample } from 'lodash';
+import { every } from 'lodash';
 
 // character indices
 // 0 1 2
@@ -67,43 +68,7 @@ export const Battle = () => {
       }
 
       // calculate target to receive attack
-      let possibleTargetIndices = [];
-      if (char.attackType === 'melee') {
-        if (charIndex >= 6) {
-          [3, 4, 5].forEach(i => {
-            if (characters[i].hp) {
-              possibleTargetIndices.push(i);
-            }
-          });
-          if (!possibleTargetIndices.length) {
-            [0, 1, 2].forEach(i => {
-              if (characters[i].hp) {
-                possibleTargetIndices.push(i);
-              }
-            });
-          }
-        } else {
-          [6, 7, 8].forEach(i => {
-            if (characters[i].hp) {
-              possibleTargetIndices.push(i);
-            }
-          });
-          if (!possibleTargetIndices.length) {
-            [9, 10, 11].forEach(i => {
-              if (characters[i].hp) {
-                possibleTargetIndices.push(i);
-              }
-            });
-          }
-        }
-      } else if (char.attackType === 'ranged' || char.attackType === 'magic') {
-        if (charIndex >= 6) {
-          possibleTargetIndices = [0, 1, 2, 3, 4, 5].filter(i => characters[i].hp);
-        } else {
-          possibleTargetIndices = [6, 7, 8, 9, 10, 11].filter(i => characters[i].hp);
-        }
-      }
-      const targetIndex = sample(possibleTargetIndices);
+      const targetIndex = calculateAttackTarget(charIndex, char, characters);
 
       // on the last setTimeout in a battle, targetIndex will be undefined.
       // it's a little jank, but that's what I get for using setTimeout like this.

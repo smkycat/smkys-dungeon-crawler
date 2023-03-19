@@ -4,7 +4,7 @@ const _monsters = [
   {
     name: 'Orc',
     img: 'orc.png',
-    maxHp: 1,
+    maxHp: 8,
     maxSp: 1,
     special: false,
     attack: 1,

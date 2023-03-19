@@ -20,7 +20,7 @@ const _characters = [
     attackType: 'ranged',
   },
   {
-    name: 'Lyra',
+    name: 'Leya',
     img: 'human_mage.png',
     maxHp: 20,
     maxSp: 5,

@@ -3,8 +3,8 @@ import { characters } from '../Characters';
 
 const genInitialState = () => ({
   characters: [
-    {}, monsters['Orc'], {}, monsters['Orc'], monsters['Orc'], {}, // enemies
-    characters['Lyra'], characters['Rachel'], {}, {}, characters['Diana'], {} // friendlies
+    {}, monsters['Orc'], monsters['Orc'], {}, monsters['Orc'], {}, // enemies
+    {}, characters['Rachel'], {}, {}, characters['Leya'], characters['Diana'] // friendlies
   ],
   activeCharIndex: 5
 });
