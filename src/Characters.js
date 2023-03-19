@@ -4,7 +4,7 @@ const _characters = [
   {
     name: 'Rachel',
     img: 'white_rat_girl.png',
-    maxHp: 20,
+    maxHp: 10,
     maxSp: 5,
     special: false,
     attack: 4,
@@ -13,7 +13,7 @@ const _characters = [
   {
     name: 'Diana',
     img: 'elf_archer.png',
-    maxHp: 20,
+    maxHp: 10,
     maxSp: 5,
     special: false,
     attack: 6,
@@ -22,7 +22,7 @@ const _characters = [
   {
     name: 'Leya',
     img: 'human_mage.png',
-    maxHp: 20,
+    maxHp: 10,
     maxSp: 5,
     special: false,
     attack: 4,
