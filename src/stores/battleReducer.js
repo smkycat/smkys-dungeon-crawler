@@ -4,9 +4,9 @@ import { characters } from '../Characters';
 const genInitialState = () => ({
   characters: [
     {}, monsters['Orc'], {}, monsters['Orc'], monsters['Orc'], {}, // enemies
-    {}, characters['Rachel'], {}, {}, {}, {} // friendlies
+    characters['Lyra'], characters['Rachel'], {}, {}, characters['Diana'], {} // friendlies
   ],
-  activeCharIndex: 2
+  activeCharIndex: 5
 });
 
 export const battleReducer = (state = genInitialState(), action) => {
@@ -28,6 +28,14 @@ export const battleReducer = (state = genInitialState(), action) => {
           newCharacters[index] = {
             ...newCharacters[index],
             sp: Math.max(Math.min(newCharacters[index].sp + change, newCharacters[index].maxSp), 0)
+          }
+        });
+      }
+      if (action.payload.animation) {
+        action.payload.animation.forEach(({ index, animation }) => {
+          newCharacters[index] = {
+            ...newCharacters[index],
+            animation
           }
         });
       }

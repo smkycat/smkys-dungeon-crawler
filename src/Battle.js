@@ -12,19 +12,33 @@ import { every, sample } from 'lodash';
 // 3 4 5
 // 6 7 8
 // 9 1011
+// const nextTurns = {
+//   6: 3,
+//   3: 7,
+//   7: 4,
+//   4: 8,
+//   8: 5,
+//   5: 9,
+//   9: 0,
+//   0: 10,
+//   10: 1,
+//   1: 11,
+//   11: 2,
+//   2: 6
+// };
 const nextTurns = {
-  6: 3,
-  3: 7,
-  7: 4,
-  4: 8,
-  8: 5,
-  5: 9,
-  9: 0,
-  0: 10,
-  10: 1,
-  1: 11,
-  11: 2,
-  2: 6
+  6: 7,
+  7: 8,
+  8: 9,
+  9: 10,
+  10: 11,
+  11: 0,
+  0: 1,
+  1: 2,
+  2: 3,
+  3: 4,
+  4: 5,
+  5: 6
 };
 
 export const Battle = () => {
@@ -82,6 +96,12 @@ export const Battle = () => {
             });
           }
         }
+      } else if (char.attackType === 'ranged' || char.attackType === 'magic') {
+        if (charIndex >= 6) {
+          possibleTargetIndices = [0, 1, 2, 3, 4, 5].filter(i => characters[i].hp);
+        } else {
+          possibleTargetIndices = [6, 7, 8, 9, 10, 11].filter(i => characters[i].hp);
+        }
       }
       const targetIndex = sample(possibleTargetIndices);
 
@@ -95,9 +115,12 @@ export const Battle = () => {
       const instruction = {
         hp: [{ index: targetIndex, change: -1 * char.attack }],
         sp: targetIndex >= 6 ? [{ index: targetIndex, change: 1 }] : null,
+        animation: [{ index: targetIndex, animation: char.attackType }],
         activeCharIndex: charIndex,
       };
       dispatch(actions.updateBattleStats(instruction));
+
+      return clearTimeout(timeout);
     }, 3000);
   }, [activeCharIndex, characters, dispatch]);
 

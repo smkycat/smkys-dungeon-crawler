@@ -14,7 +14,14 @@ const BattleCharacter = ({ char, isActive }) => char.img ? (
   <div className={`battle_character ${isActive ? 'active' : ''}`}>
     <AnimatedStatBar value={char.hp} maxValue={char.maxHp} type='hp' />
     <div className='battle_character_portrait_and_name'>
-      <img alt='portrait' src={`assets/${char.img}`} />
+      <div className='portrait_container'>
+        <div
+          className='image'
+          style={{ background: `url(assets/${char.img}) no-repeat center center`, backgroundSize: 'contain' }}
+        />
+        <div key={char.hp} className={`animation_layer ${char.animation}`} />
+        {!char.hp && <div className='x' />}
+      </div>
       <div className='battle_character_name'>{char.name}</div>
     </div>
     <AnimatedStatBar value={char.sp} maxValue={char.maxSp} type='sp' />
