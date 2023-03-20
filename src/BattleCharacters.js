@@ -1,15 +1,29 @@
-
+import { shallowEqual, useSelector } from 'react-redux';
 import { AnimatedStatBar } from './AnimatedStatBar';
 import './BattleCharacters.scss';
 import { Image } from './particles/Image';
 
-export const BattleCharacters = ({ chars, activeCharIndex }) => (
-  <div className='battle_characters'>
-    {chars.map((char, index) => (
-      <BattleCharacter key={index} char={char} isActive={index === activeCharIndex} />
-    ))}
-  </div>
-);
+export const BattleCharacters = ({ chars, baseCharIndex }) => {
+  const { activeCharIndex, activeCharRegenBuffer } = useSelector(state => ({
+    activeCharIndex: state.battle.activeCharIndex,
+    activeCharRegenBuffer: state.battle.activeCharRegenBuffer
+  }), shallowEqual);
+
+  return (
+    <div className='battle_characters'>
+      {chars.map((char, index) => (
+        <BattleCharacter
+          key={baseCharIndex + index}
+          char={(baseCharIndex + index) === activeCharRegenBuffer.index
+            ? { ...char, hp: Math.min(char.maxHp, char.hp + activeCharRegenBuffer.value)}
+            : char
+          }
+          isActive={(baseCharIndex + index) === activeCharIndex}
+        />
+      ))}
+    </div>
+  );
+};
 
 const BattleCharacter = ({ char, isActive }) => char.img ? (
   <div className={`battle_character ${isActive ? 'active' : ''}`}>

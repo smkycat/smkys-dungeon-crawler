@@ -33,8 +33,10 @@ const _characters = [
 for (let i = 0; i < _characters.length; i++) {
   _characters[i].hp = _characters[i].maxHp;
   _characters[i].sp = 0;
-  _characters.effects = {};
-  _characters.animation = null;
+  _characters[i].regen = 2; // testing
+  _characters[i].hp = 5; // testing
+  _characters[i].effects = {};
+  _characters[i].animation = null;
 }
 
 export const characters = keyBy(_characters, 'name');

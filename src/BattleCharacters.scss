@@ -67,7 +67,7 @@
             }
           }
           
-          animation: delay 0s 2.5s forwards;
+          animation: delay 0s 1.5s forwards;
         }
 
         .animation_layer {
@@ -92,7 +92,7 @@
                 left: 0;
               }
             }
-            animation: 1.5s ease-in 1s melee;
+            animation: 1.5s ease-in 0s melee;
           }
 
           &.ranged {
@@ -115,7 +115,7 @@
                 left: -10px;
               }
             }
-            animation: 1.5s ease-out 1s ranged;
+            animation: 1.5s ease-out 0s ranged;
           }
 
           &.magic {
@@ -138,7 +138,7 @@
                 left: 10px;
               }
             }
-            animation: 1.5s ease-out 1s magic;
+            animation: 1.5s ease-out 0s magic;
           }
         }
       }

@@ -87,8 +87,9 @@ const _monsters = [
 for (let i = 0; i < _monsters.length; i++) {
   _monsters[i].hp = _monsters[i].maxHp;
   _monsters[i].sp = 0;
-  _monsters.effects = {};
-  _monsters.animation = null;
+  _monsters[i].regen = 0;
+  _monsters[i].effects = {};
+  _monsters[i].animation = null;
 }
 
 export const monsters = keyBy(_monsters, 'name');

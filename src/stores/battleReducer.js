@@ -3,10 +3,11 @@ import { characters } from '../Characters';
 
 const genInitialState = () => ({
   characters: [
-    {}, monsters['Swamp Sorceress'], {}, {}, monsters['Orc Soldier'], monsters['Orc Chieftain'], // enemies
+    {}, {}, {}, {}, monsters['Ark\'Xha'], {}, // enemies
     {}, characters['Rachel'], {}, {}, characters['Leya'], characters['Diana'] // friendlies
   ],
-  activeCharIndex: 5
+  activeCharIndex: -1,
+  activeCharRegenBuffer: { index: -1, value: 0 }
 });
 
 export const battleReducer = (state = genInitialState(), action) => {
@@ -43,10 +44,12 @@ export const battleReducer = (state = genInitialState(), action) => {
       return {
         ...state,
         characters: newCharacters,
-        activeCharIndex: typeof action.payload.activeCharIndex === 'number'
-          ? action.payload.activeCharIndex
-          : state.activeCharIndex
-    };
+        activeCharRegenBuffer: { index: -1, value: 0 }
+      };
+    case 'SET_ACTIVE_CHAR_INDEX':
+      return { ...state, activeCharIndex: action.payload };
+    case 'SET_ACTIVE_CHAR_REGEN_BUFFER':
+      return { ...state, activeCharRegenBuffer: action.payload };
     default:
       return state;
   }

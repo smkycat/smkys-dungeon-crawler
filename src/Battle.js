@@ -7,6 +7,7 @@ import { BattleCharacters } from './BattleCharacters';
 import { calculateAttackTarget } from './calculateAttackTarget';
 import './Battle.scss';
 import { every } from 'lodash';
+import { store } from './stores/store';
 
 // character indices
 // 0 1 2
@@ -28,6 +29,7 @@ import { every } from 'lodash';
 //   2: 6
 // };
 const nextTurns = {
+  '-1': 6,
   6: 7,
   7: 8,
   8: 9,
@@ -43,9 +45,8 @@ const nextTurns = {
 };
 
 export const Battle = () => {
-  const { characters, activeCharIndex } = useSelector(state => ({
-    characters: state.battle.characters,
-    activeCharIndex: state.battle.activeCharIndex
+  const { characters } = useSelector(state => ({
+    characters: state.battle.characters
   }), shallowEqual);
   const dispatch = useDispatch();
 
@@ -57,7 +58,8 @@ export const Battle = () => {
       }
 
       // find next character to act
-      let charIndex = activeCharIndex;
+      // can't listen to store for activeCharIndex, otherwise <Battle> will rerender during regen phase
+      let charIndex = store.getState().battle.activeCharIndex;
       let char = characters[charIndex];
       while (true) {
         charIndex = nextTurns[charIndex];
@@ -76,18 +78,31 @@ export const Battle = () => {
         return clearTimeout(timeout);
       }
 
-      // generate and dispatch attack information
-      const instruction = {
-        hp: [{ index: targetIndex, change: -1 * char.attack }],
-        sp: targetIndex >= 6 ? [{ index: targetIndex, change: 1 }] : null,
-        animation: [{ index: targetIndex, animation: char.attackType }],
-        activeCharIndex: charIndex,
-      };
-      dispatch(actions.updateBattleStats(instruction));
+      // update active char index
+      dispatch(actions.setActiveCharIndex(charIndex));
 
-      return clearTimeout(timeout);
+      // activate active char's regen
+      if (char.regen) {
+        dispatch(actions.setActiveCharRegenBuffer({ index: charIndex, value: char.regen }));
+      }
+
+      // generate and dispatch attack information, delayed to allow regen to finish animating
+      const timeout2 = setTimeout(() => {
+        const instruction = {
+          hp: [
+            { index: charIndex, change: char.regen },
+            { index: targetIndex, change: -1 * char.attack }
+          ],
+          sp: targetIndex >= 6 ? [{ index: targetIndex, change: 1 }] : null,
+          animation: [{ index: targetIndex, animation: char.attackType }]
+        };
+        dispatch(actions.updateBattleStats(instruction));
+        clearTimeout(timeout2); // is this line necessary?
+      }, 1500);
+
+      return clearTimeout(timeout); // is this line necessary?
     }, 3000);
-  }, [activeCharIndex, characters, dispatch]);
+  }, [characters, dispatch]);
 
   return (
     <div className='battle'>
@@ -97,7 +112,7 @@ export const Battle = () => {
         </div>
         <BattleCharacters
           chars={characters.slice(0, 6)}
-          activeCharIndex={activeCharIndex}
+          baseCharIndex={0}
         />
         <div className='top_right_section'>
           
@@ -109,7 +124,7 @@ export const Battle = () => {
         </div>
         <BattleCharacters
           chars={characters.slice(6)}
-          activeCharIndex={activeCharIndex - 6}
+          baseCharIndex={6}
         />
         <div className='bottom_right_section'>
           
