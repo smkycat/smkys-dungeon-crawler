@@ -1,7 +1,7 @@
 import { shallowEqual, useSelector } from 'react-redux';
 import { AnimatedStatBar } from './AnimatedStatBar';
 import './BattleCharacters.scss';
-import { Image } from './particles/Image';
+import { Image } from '../particles/Image';
 
 export const BattleCharacters = ({ chars, baseCharIndex }) => {
   const { activeCharIndex, activeCharRegenBuffer } = useSelector(state => ({
@@ -25,8 +25,8 @@ export const BattleCharacters = ({ chars, baseCharIndex }) => {
   );
 };
 
-const BattleCharacter = ({ char, isActive }) => char.img ? (
-  <div className={`battle_character ${isActive ? 'active' : ''}`}>
+export const BattleCharacter = ({ char, isActive, onClick = null }) => char.img ? (
+  <div className={`battle_character ${isActive ? 'active' : ''}`} onClick={onClick}>
     <AnimatedStatBar value={char.hp} maxValue={char.maxHp} type='hp' />
     <div className='battle_character_portrait_and_name'>
       <div className='portrait_container'>

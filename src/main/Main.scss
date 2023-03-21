@@ -1,0 +1,63 @@
+.main {
+  height: 100%;
+
+  .top {
+    flex-grow: 1;
+
+    .top_left {
+      border-right: 1px solid black;
+      width: 25%;
+      height: 100%;
+
+      .crafting_drop {
+        height: 50%;
+        border-bottom: 1px solid black;
+
+        .drop_area {
+          width: 40px;
+          height: 40px;
+          border: 1px solid black;
+          margin: auto;
+        }
+      }
+    }
+
+    .preview {
+      width: 25%;
+      border-right: 1px solid black;
+    }
+
+    .top_right {
+      width: 50%;
+
+      .materials {
+        border-bottom: 1px solid black;
+        height: 200px;
+      }
+
+      .inventory {
+        border: 1px solid red;
+        flex-grow: 1;
+        padding: 20px;
+
+        .draggable_square {
+          width: 40px;
+          height: 40px;
+          margin-left: 5px;
+          margin-bottom: 5px;
+          display: inline-block;
+          background: grey;
+        }
+      }
+    }
+  }
+
+  .main_portrait_container {
+    border-top: 1px solid black;
+    padding: 20px;
+    
+    .battle_character {
+      margin-left: 20px;
+    }
+  }
+}

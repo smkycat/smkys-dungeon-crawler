@@ -1,0 +1,156 @@
+.battle_characters {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  grid-gap: 19px;
+  height: fit-content;
+}
+
+.battle_character {
+  border-radius: 1px;
+  display: flex;
+  align-items: flex-end;
+  height: 140px;
+  width: 154px;
+  background: grey;
+  border: 1px solid goldenrod;
+  position: relative;
+  
+  &.active {
+    animation: glow 1.5s linear infinite;
+
+    @keyframes glow {
+      0% {
+        box-shadow: 0 0 8px red;
+      }
+    
+      50% {
+        box-shadow: 0 0 32px red;
+      }
+
+      100% {
+        box-shadow: 0 0 8px red;
+      }
+    }
+  }
+
+  .battle_character_portrait_and_name {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+
+    .portrait_container {
+      position: relative;
+      background: grey;
+      width: 120px;
+      height: 120px;
+      border: 1px solid goldenrod;
+      border-top: none;
+
+      .image {
+        width: 120px;
+        height: 120px;
+      }
+
+      .x {
+        position: absolute;
+        top: 0;
+        height: 120px;
+        width: 120px;
+        opacity: 0;
+        
+        @keyframes delay {
+          to {
+            opacity: 0.65;
+          }
+        }
+        
+        animation: delay 0s 1.5s forwards;
+      }
+
+      .animation_layer {
+        position: absolute;
+        top: 0;
+        height: 120px;
+        width: 120px;
+        opacity: 0;
+
+        &.melee {
+          transform: rotate(12deg) scale(1.2);
+
+          @keyframes melee {
+            0% {
+              opacity: 0.9;
+              top: -5px;
+              left: 7px;
+            }
+            100% {
+              opacity: 0;
+              top: 0;
+              left: 0;
+            }
+          }
+          animation: 1.5s ease-in 0s melee;
+        }
+
+        &.ranged {
+          transform: rotate(0deg) scale(1.2);
+
+          @keyframes ranged {
+            0% {
+              opacity: 1;
+              top: -40px;
+              left: 40px;
+            }
+            50% {
+              opacity: 1;
+              top: 10px;
+              left: -10px;
+            }
+            100% {
+              opacity: 0;
+              top: 10px;
+              left: -10px;
+            }
+          }
+          animation: 1.5s ease-out 0s ranged;
+        }
+
+        &.magic {
+          transform: rotate(-90deg) scale(1.2);
+
+          @keyframes magic {
+            0% {
+              opacity: 1;
+              top: -55px;
+              left: -55px;
+            }
+            50% {
+              opacity: 1;
+              top: 0px;
+              left: 0px;
+            }
+            100% {
+              opacity: 0;
+              top: 10px;
+              left: 10px;
+            }
+          }
+          animation: 1.5s ease-out 0s magic;
+        }
+      }
+    }
+
+    .battle_character_name {
+      background: peachpuff;
+      height: 100%;
+      width: 120px;
+      padding-top: 2px;
+      border-left: 1px solid goldenrod;
+      border-right: 1px solid goldenrod;
+    }
+  }
+}

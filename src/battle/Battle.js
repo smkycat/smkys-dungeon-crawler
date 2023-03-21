@@ -1,13 +1,13 @@
 
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import * as actions from './stores/actions';
+import * as actions from '../stores/actions';
 import { useSelector, shallowEqual } from 'react-redux';
 import { BattleCharacters } from './BattleCharacters';
 import { calculateAttackTarget } from './calculateAttackTarget';
 import './Battle.scss';
 import { every } from 'lodash';
-import { store } from './stores/store';
+import { store } from '../stores/store';
 
 // character indices
 // 0 1 2

@@ -4,6 +4,7 @@ export const Image = ({
   height,
   size = 'contain',
   className = '',
+  onClick = null,
   children = null
 }) => (
   <div
@@ -14,6 +15,7 @@ export const Image = ({
       width: `${width}px`,
       height: `${height}px`
     }}
+    onClick={onClick}
   >
     {children}
   </div>
