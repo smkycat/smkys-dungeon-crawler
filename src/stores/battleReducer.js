@@ -32,6 +32,9 @@ export const battleReducer = (state = genInitialState(), action) => {
           }
         });
       }
+      for (let i = 0; i < newCharacters.length; i++) {
+        newCharacters[i].animation = null;
+      }
       if (action.payload.animation) {
         action.payload.animation.forEach(({ index, animation }) => {
           newCharacters[index] = {

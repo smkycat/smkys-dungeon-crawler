@@ -32,4 +32,26 @@
       transition: height 0.5s ease-out 1s;
     }
   }
+
+  .partition_container {
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+
+    .partition {
+      border-top: 1px solid;
+      box-sizing: border-box;
+    }
+  }
+
+  .partition_hider {
+    position: absolute;
+    width: 16px;
+    background: grey;
+
+    &.slow {
+      transition: height 0.5s ease-out 1s;
+    }
+  }
 }

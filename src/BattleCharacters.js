@@ -32,7 +32,7 @@ const BattleCharacter = ({ char, isActive }) => char.img ? (
       <div className='portrait_container'>
         <Image src={char.img} width={120} height={120} />
         <Image
-          key={char.hp}
+          key={char.animation}
           className={`animation_layer ${char.animation}`}
           width={120}
           height={120}

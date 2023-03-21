@@ -70,10 +70,10 @@ const monstersAct1 = [
   {
     name: 'Ark\'Xha',
     img: 'swamp_queen.png',
-    maxHp: 40,
+    maxHp: 200,
     maxSp: 5,
     special: true,
-    attack: 2,
+    attack: 25,
     attackType: 'melee',
     armor: 0,
     flavorText: 'Elite melee unit. Piercing special attack. Ark\'Xha, Orc Queen of the Swamplands, solely holds sovereignty over all factions within the Swamplands. Though her combat ability is feared, most know her as a gentle and prudent leader who prefers to rule with the spoken and written word, rather than with the sword.'
