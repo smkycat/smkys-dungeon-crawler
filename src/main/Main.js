@@ -1,8 +1,52 @@
-import { useState } from 'react';
-import { shallowEqual, useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { FlexContainer } from '../particles/FlexContainer';
 import { BattleCharacter } from '../battle/BattleCharacters';
 import './Main.scss';
+import * as actions from '../stores/actions';
+import { useDrag, useDrop, DndProvider } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
+import { createNewRandomItem } from '../items';
+
+const DraggableItem = ({ id }) => {
+  const [{ isDragging }, dragRef] = useDrag({
+    type: 'item',
+    item: { id },
+    collect: monitor => ({
+      isDragging: monitor.isDragging()
+    })
+  });
+
+  return (
+    <div
+      ref={dragRef}
+      className={`draggable_item ${isDragging ? 'is_dragging' : ''}`}
+    >
+      {id}
+    </div>
+  );
+};
+const DraggableItemTarget = () => {
+  const [itemId, setItemId] = useState(null);
+  const [{ isOver }, dropRef] = useDrop({
+    accept: 'item',
+    drop: item => setItemId(item.id),
+    collect: (monitor) => ({
+      isOver: monitor.isOver()
+    })
+  });
+
+  return (
+    <div
+      ref={dropRef}
+      className={`draggable_item_target ${isOver ? 'is_over' : ''}`}
+    >
+      <div className='crafting_drop'>
+        {itemId}
+      </div>
+    </div>
+  )
+};
 
 const MainPortraits = ({ onPortraitClick }) => {
   const { characters } = useSelector(state => ({
@@ -27,28 +71,54 @@ const MainPortraits = ({ onPortraitClick }) => {
 
 export const Main = () => {
   const [activeChar, setActiveChar] = useState(0);
-  console.log('active char: ', activeChar);
+  const [activeItem, setActiveItem] = useState(null);
+
+  const { items, inventory } = useSelector(state => ({
+    items: state.items.items,
+    inventory: state.items.inventory,
+  }), shallowEqual);
+  const dispatch = useDispatch();
+  
+  useEffect(() => {
+    dispatch(actions.addItems([
+      createNewRandomItem(),
+      createNewRandomItem(),
+      createNewRandomItem(),
+      createNewRandomItem(),
+      createNewRandomItem(),
+      createNewRandomItem(),
+      createNewRandomItem(),
+      createNewRandomItem(),
+      createNewRandomItem(),
+      createNewRandomItem(),
+    ]))
+  }, [dispatch]);
 
   return (
-    <FlexContainer className='main' flexDirection='column'>
-      <FlexContainer className='top'>
-        <div className='top_left'>
-          <div className='crafting_drop'>
-            <div className='drop_area' />
+    <DndProvider backend={HTML5Backend}>
+      <FlexContainer className='main' flexDirection='column'>
+        <FlexContainer className='top' justifyContent='space-between'>
+          <div className='top_left'>
+            <DraggableItemTarget />
+            <div className='map_drop'>
+              
             </div>
-          <div className='map_drop' />
-        </div>
-        <div className='preview' />
-        <FlexContainer className='top_right' flexDirection='column' >
-          <div className='materials' />
-          <div className='inventory'>
-            {Array(20).fill().map((i, index) => (
-              <div key={index} className='draggable_square' />
-            ))}
           </div>
+          <div className='preview' />
+          <FlexContainer className='top_right' flexDirection='column' >
+            <div className='materials' />
+            <div className='inventory_container'>
+              <div className='inventory'>
+                {inventory.map((id, index) => (id
+                  ? <DraggableItem key={index} id={id} />
+                  : <div key={index} className='draggable_item_placeholder' />
+                ))}
+              </div>
+            </div>
+          </FlexContainer>
         </FlexContainer>
+        <MainPortraits onPortraitClick={(index) => setActiveChar(index)} />
       </FlexContainer>
-      <MainPortraits onPortraitClick={(index) => setActiveChar(index)} />
-    </FlexContainer>
+    </DndProvider>
   );
 };

@@ -9,11 +9,17 @@
       width: 25%;
       height: 100%;
 
-      .crafting_drop {
+      .draggable_item_target {
         height: 50%;
         border-bottom: 1px solid black;
 
-        .drop_area {
+        &.is_over {
+          .crafting_drop {
+            border: 1px solid red;
+          }
+        }
+
+        .crafting_drop {
           width: 40px;
           height: 40px;
           border: 1px solid black;
@@ -23,30 +29,33 @@
     }
 
     .preview {
-      width: 25%;
+      flex-grow: 1;
       border-right: 1px solid black;
     }
 
     .top_right {
-      width: 50%;
-
       .materials {
         border-bottom: 1px solid black;
-        height: 200px;
+        flex-grow: 1;
       }
 
-      .inventory {
-        border: 1px solid red;
-        flex-grow: 1;
-        padding: 20px;
+      .inventory_container {
+        background: darkgray;
 
-        .draggable_square {
-          width: 40px;
-          height: 40px;
-          margin-left: 5px;
-          margin-bottom: 5px;
-          display: inline-block;
-          background: grey;
+        .inventory {
+          display: grid;
+          grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+
+          .draggable_item, .draggable_item_placeholder {
+            width: 40px;
+            height: 40px;
+            background: grey;
+            border: 1px solid black;
+  
+            &.is_dragging {
+              border: 1px solid red;
+            }
+          }
         }
       }
     }

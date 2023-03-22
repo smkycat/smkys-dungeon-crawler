@@ -7,3 +7,6 @@ export const setScene = payload => ({ type: 'SET_SCENE', payload });
 
 export const setCharacters = payload => ({ type: 'SET_CHARACTERS', payload });
 export const updateCharacters = payload => ({ type: 'UPDATE_CHARACTERS', payload });
+
+export const addItems = payload => ({ type: 'ADD_ITEMS', payload });
+export const updateItem = payload => ({ type: 'UPDATE_ITEM', payload });
