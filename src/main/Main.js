@@ -7,6 +7,8 @@ import * as actions from '../stores/actions';
 import { useDrag, useDrop, DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import { createNewRandomItem } from '../items';
+import { testCharacters, testBattleCharacters } from '../characters';
+import { testMonsters } from '../monsters';
 
 const DraggableItem = ({ id }) => {
   const [{ isDragging }, dragRef] = useDrag({
@@ -50,7 +52,7 @@ const DraggableItemTarget = () => {
 
 const MainPortraits = ({ onPortraitClick }) => {
   const { characters } = useSelector(state => ({
-    characters: state.characters.characters
+    characters: state.character.characters
   }), shallowEqual);
 
   return (
@@ -58,7 +60,7 @@ const MainPortraits = ({ onPortraitClick }) => {
       className='main_portrait_container'
       justifyContent='flex-end'
     >
-      {characters.map((i, index) => (
+      {Object.values(characters).map((i, index) => (
         <BattleCharacter
           key={index}
           char={i}
@@ -74,8 +76,8 @@ export const Main = () => {
   const [activeItem, setActiveItem] = useState(null);
 
   const { items, inventory } = useSelector(state => ({
-    items: state.items.items,
-    inventory: state.items.inventory,
+    items: state.item.items,
+    inventory: state.item.inventory,
   }), shallowEqual);
   const dispatch = useDispatch();
   
@@ -91,7 +93,13 @@ export const Main = () => {
       createNewRandomItem(),
       createNewRandomItem(),
       createNewRandomItem(),
-    ]))
+    ]));
+    dispatch(actions.setCharacters(testCharacters));
+    dispatch(actions.setBattleCharacters([
+      ...testMonsters,
+      ...testBattleCharacters
+    ]));
+    dispatch(actions.setScene('battle'));
   }, [dispatch]);
 
   return (

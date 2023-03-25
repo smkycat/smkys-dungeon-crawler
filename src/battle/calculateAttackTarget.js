@@ -3,12 +3,11 @@
 // 3 4 5
 // 6 7 8
 // 9 1011
-
 export const calculateAttackTarget = (charIndex, char, characters) => {
   const n = Math.random();
   let targetPriority = [];
   
-  if (char.attackType === 'melee') {
+  if (char.derivedStats.attackType === 'melee') {
     // melee attacks always try to target the nearest enemy.
     // if two or more (three) enemies are the same distance away, a random enemy of the same distance away is selected.
     if ([6, 9].includes(charIndex)) {
@@ -73,5 +72,5 @@ export const calculateAttackTarget = (charIndex, char, characters) => {
       : [6, 7, 8, 9, 10, 11];
   }
 
-  return targetPriority.filter(i => characters[i].hp)[0];
+  return targetPriority.filter(i => characters[i] && characters[i].derivedStats.HP)[0];
 };

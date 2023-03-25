@@ -15,7 +15,13 @@ export const BattleCharacters = ({ chars, baseCharIndex }) => {
         <BattleCharacter
           key={baseCharIndex + index}
           char={(baseCharIndex + index) === activeCharRegenBuffer.index
-            ? { ...char, hp: Math.min(char.maxHp, char.hp + activeCharRegenBuffer.value)}
+            ? {
+              ...char,
+              derivedStats: {
+                ...char.derivedStats,
+                HP: Math.min(char.derivedStats.maxHP, char.derivedStats.HP + activeCharRegenBuffer.value)
+              }
+            }
             : char
           }
           isActive={(baseCharIndex + index) === activeCharIndex}
@@ -25,24 +31,26 @@ export const BattleCharacters = ({ chars, baseCharIndex }) => {
   );
 };
 
-export const BattleCharacter = ({ char, isActive, onClick = null }) => char.img ? (
+export const BattleCharacter = ({ char, isActive, onClick = null }) => (char && char.image) ? (
   <div className={`battle_character ${isActive ? 'active' : ''}`} onClick={onClick}>
-    <AnimatedStatBar value={char.hp} maxValue={char.maxHp} type='hp' />
+    <AnimatedStatBar value={char.derivedStats.HP} maxValue={char.derivedStats.maxHP} type='hp' />
     <div className='battle_character_portrait_and_name'>
       <div className='portrait_container'>
-        <Image src={char.img} width={120} height={120} />
-        <Image
-          key={char.animation}
-          className={`animation_layer ${char.animation}`}
-          width={120}
-          height={120}
-          src={`${char.animation}_animation.png`}
-        />
-        {!char.hp && <Image src='x.png' className='x' width={120} height={120} />}
+        <Image src={char.image} width={120} height={120} />
+        {char.animation && (
+          <Image
+            key={char.animation}
+            className={`animation_layer ${char.animation}`}
+            width={120}
+            height={120}
+            src={`${char.animation}_animation.png`}
+          />
+        )}
+        {!char.derivedStats.HP && <Image src='x.png' className='x' width={120} height={120} />}
       </div>
       <div className='battle_character_name'>{char.name}</div>
     </div>
-    <AnimatedStatBar value={char.sp} maxValue={char.maxSp} type='sp' />
+    <AnimatedStatBar value={char.derivedStats.SP} maxValue={char.derivedStats.maxSP} type='sp' />
   </div>
 ) : (
   <div className='battle_character' />

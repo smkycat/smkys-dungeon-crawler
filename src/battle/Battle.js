@@ -6,7 +6,6 @@ import { useSelector, shallowEqual } from 'react-redux';
 import { BattleCharacters } from './BattleCharacters';
 import { calculateAttackTarget } from './calculateAttackTarget';
 import './Battle.scss';
-import { every } from 'lodash';
 import { store } from '../stores/store';
 
 // character indices
@@ -53,7 +52,10 @@ export const Battle = () => {
   useEffect(() => {
     const timeout = setTimeout(() => {
       // exit if no valid characters to act
-      if (every(characters.slice(0, 6), i => !i.hp) || every(characters.slice(6), i => i.hp)) {
+      if (
+        !characters.slice(0, 6).filter(i => i && i.derivedStats.HP).length
+        || !characters.slice(6).filter(i => i && i.derivedStats.HP).length
+      ) {
         return clearTimeout(timeout);
       }
 
@@ -64,7 +66,7 @@ export const Battle = () => {
       while (true) {
         charIndex = nextTurns[charIndex];
         char = characters[charIndex];
-        if (char.hp) {
+        if (char && char.derivedStats.HP) {
           break;
         }
       }
@@ -82,21 +84,26 @@ export const Battle = () => {
       dispatch(actions.setActiveCharIndex(charIndex));
 
       // activate active char's regen
-      if (char.regen) {
-        dispatch(actions.setActiveCharRegenBuffer({ index: charIndex, value: char.regen }));
+      if (char.derivedStats.Regen) {
+        dispatch(actions.setActiveCharRegenBuffer({ index: charIndex, value: char.derivedStats.Regen }));
       }
 
       // generate and dispatch attack information, delayed to allow regen to finish animating
       const timeout2 = setTimeout(() => {
-        const instruction = {
-          hp: [
-            { index: charIndex, change: char.regen },
-            { index: targetIndex, change: -1 * char.attack }
-          ],
-          sp: targetIndex >= 6 ? [{ index: targetIndex, change: 1 }] : null,
-          animation: [{ index: targetIndex, animation: char.attackType }]
+        const payload = {
+          [charIndex]: {
+            HP: Math.min(char.derivedStats.HP + char.derivedStats.Regen, char.derivedStats.maxHP)
+          },
+          [targetIndex]: {
+            HP: Math.max(characters[targetIndex].derivedStats.HP - char.derivedStats.attack, 0),
+            animation: char.derivedStats.attackType
+          }
         };
-        dispatch(actions.updateBattleStats(instruction));
+        if (targetIndex >= 6) {
+          // payload[charIndex].SP = char.derivedStats.SP + 1;
+          // let's not worry about updating SP for now, maybe i'll add it in later.
+        }
+        dispatch(actions.updateBattleCharacters(payload));
         clearTimeout(timeout2); // is this line necessary?
       }, 1500);
 

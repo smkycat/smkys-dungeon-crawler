@@ -4,9 +4,14 @@ const genInitialState = () => ({
 
 export const sceneReducer = (state = genInitialState(), action) => {
   switch (action.type) {
-    case 'SET_SCENE':
+    case 'SET_SCENE': {
+      /* payload
+        sceneName<String>
+      */
       return { ...state, scene: action.payload };
-    default:
+    }
+    default: {
       return state;
+    }
   }
 };

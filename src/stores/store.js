@@ -1,12 +1,14 @@
 import { createStore, combineReducers } from 'redux';
 import { battleReducer } from './battleReducer';
 import { sceneReducer } from './sceneReducer';
-import { charactersReducer } from './charactersReducer';
-import { itemsReducer } from './itemsReducer';
+import { characterReducer } from './characterReducer';
+import { itemReducer } from './itemReducer';
+import { craftingReducer } from './craftingReducer';
 
 export const store = createStore(combineReducers({
   battle: battleReducer,
   scene: sceneReducer,
-  characters: charactersReducer,
-  items: itemsReducer
+  character: characterReducer,
+  item: itemReducer,
+  crafting: craftingReducer
 }));
