@@ -2,13 +2,13 @@ import { useEffect, useState } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { FlexContainer } from '../particles/FlexContainer';
 import { BattleCharacter } from '../battle/BattleCharacters';
-import './Main.scss';
 import * as actions from '../stores/actions';
 import { useDrag, useDrop, DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import { createNewRandomItem } from '../items';
 import { testCharacters, testBattleCharacters } from '../characters';
 import { testMonsters } from '../monsters';
+import './Main.scss';
 
 const DraggableItem = ({ id }) => {
   const [{ isDragging }, dragRef] = useDrag({
