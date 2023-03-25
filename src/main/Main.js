@@ -7,8 +7,8 @@ import { useDrag, useDrop, DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import { createNewRandomItem } from '../items';
 import { testCharacters, testBattleCharacters } from '../characters';
-import { testMonsters } from '../monsters';
 import './Main.scss';
+import { testMonsters } from '../monsters';
 
 const DraggableItem = ({ id }) => {
   const [{ isDragging }, dragRef] = useDrag({
